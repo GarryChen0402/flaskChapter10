@@ -1,0 +1,142 @@
+{% extends "shop/base.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h1 class="m-0">
+                                商品分类管理模块
+                                <small>列表</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--内容开始-->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 search-collapse">
+                        <form id="search_form">
+                            <div class="select-list">
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-success" href="{{ url_for('cates.add') }}">
+                                            <i class="fa fa-plus"></i> 新增
+                                        </a>
+                                        <input class="hide" type="submit" name="btnSave" value="提交"
+                                               onclick="$.table.search();return false;"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="col-sm-12 main">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <table class="table table-bordered table-condensed table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>分类名称</th>
+                            <th>父级分类</th>
+                            <th>Logo</th>
+                            <th>排序</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>功能操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for per in cates %}
+                            <tr>
+                                <td>{{ per.name }}</td>
+                                <td>{{ per.parent_id }}</td>
+                                <td width="5%"><img src="{{ url_for('cates.show',filename=per.logo) }}" width="50px" height="50px"/></td>
+                                <td>{{ per.sort }}</td>
+                                <td>{{ per.create_time }}</td>
+                                <td>{{ per.update_time }}</td>
+                                <td width="20%">
+                                    <a class="btn btn-primary single" href="{{ url_for('cates.edit',cat_id=per.cat_id) }}">
+                                        <i class="fa fa-edit"></i> 修改
+                                    </a>
+                                    <a class="btn btn-danger multiple" onclick="del(this,'{{ per.cat_id }}')" >
+                                        <i class="fa fa-times"></i> 删除
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">无相关记录！</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {#    <nav aria-label="Contacts Page Navigation">#}
+        {#        <ul class="pagination justify-content-center m-2">#}
+        {#            {% if cates.has_previous %}#}
+        {#            <li class="page-item">#}
+        {#                <a class="page-link" href="?page={{ cates.previous_page_number }}">#}
+        {#                    <span aria-hidden="true">&laquo;</span>#}
+        {#                </a>#}
+        {#            </li>#}
+        {#            {% endif %}#}
+        {##}
+        {#            {% for pg in cates.paginator.page_range %}#}
+        {#            {% if cates.number == pg %}#}
+        {#            <li class="page-item active">#}
+        {#                <a class="page-link" href="?page={{pg}}">{{ pg }}</a>#}
+        {#            </li>#}
+        {#            {% else %}#}
+        {#            <li class="page-item">#}
+        {#                <a class="page-link" href="?page={{pg}}">{{ pg }}</a>#}
+        {#            </li>#}
+        {#            {% endif %}#}
+        {#            {% endfor %}#}
+        {##}
+        {##}
+        {#            {% if cates.has_next %}#}
+        {#            <li class="page-item">#}
+        {#                <a class="page-link" href="?page={{ cates.next_page_number }}">#}
+        {#                    <span aria-hidden="true">&raquo;</span>#}
+        {#                </a>#}
+        {#            </li>#}
+        {#            {% endif %}#}
+        {#        </ul>#}
+        {#    </nav>#}
+    </div>
+
+    <script language="JavaScript">
+    function del(obj,id){
+        layer.confirm("确定要删除这条数据吗?",{icon:3,title:'提示'},function(index){
+            $.ajax({
+                type:"POST",
+                url:"{{ url_for('cates.del') }}",
+                data:{
+                    cat_id:id,
+                    csrf_token:'{{ csrf_token() }}',
+                },
+                success:function(data){
+                    layer.msg("删除成功",{icon:1,time:500});
+                    window.location.href='{{ url_for("cates.index") }}';
+                },
+                err:function(data){
+                    layer.msg("删除失败，原因为"+data,{icon:1,time:500});
+                },
+            });
+        });
+    }
+
+    </script>
+{% endblock %}

@@ -12,7 +12,11 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../flaskChapter10\templates" />
+        <option value="$MODULE_DIR$/apps/templates" />
+        <option value="$MODULE_DIR$/apps/templates/static" />
+        <option value="$MODULE_DIR$/apps/templates/shop" />
+        <option value="$MODULE_DIR$/apps/templates/pages" />
+        <option value="$MODULE_DIR$/apps/templates/other" />
       </list>
     </option>
   </component>

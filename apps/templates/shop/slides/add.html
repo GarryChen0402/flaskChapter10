@@ -1,0 +1,89 @@
+{% extends "shop/base.html" %}
+{% block title %}
+    <title>商品分类-新增</title>
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item"><a href="#">商品分类</a></li>
+                            <li class="breadcrumb-item active">商品分类增加</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <form novalidate method="post" class="form-horizontal"  enctype="multipart/form-data">
+                        {{ form_obj.csrf_token }}
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">商品分类添加</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label for="{{ form_obj.name.id_for_label }}"
+                                           class="col-sm-2 col-form-label text-center">{{ form_obj.name.label }}</label>
+                                    <div class="col-sm-10">
+                                        {{ form_obj.name }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="{{ form_obj.parent_id.id_for_label }}"
+                                           class="col-sm-2 col-form-label text-center">{{ form_obj.parent_id.label }}</label>
+                                    <div class="col-sm-10">
+                                        <div class="select-list">
+                                            <ul>
+                                                <li>
+                                                    <select id="parent_id" name="parent_id">
+                                                        <option selected value=''>请选择...</option>
+                                                        <option value='0'>作为一级分类</option>
+                                                        {% for key,value in cates.items() %}
+                                                            <option value={{ key }}>{{ value|safe }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    {#                                                {{ form_obj.parent_id }}#}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="{{ form_obj.sort.id_for_label }}"
+                                           class="col-sm-2 col-form-label text-center">{{ form_obj.sort.label }}</label>
+                                    <div class="col-sm-10">
+                                        {{ form_obj.sort }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="{{ form_obj.logo.id_for_label }}"
+                                           class="col-sm-2 col-form-label text-center">{{ form_obj.logo.label }}</label>
+                                    <div class="col-sm-10">
+                                        <div class="custom-file">
+                                            {{ form_obj.logo }}
+                                            <label class="custom-file-label" for="customFile">选择图片
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                        <button type="submit" class="btn btn-info">保存</button>
+                                        <button type="button" class="btn btn-default"
+                                                onclick="javascript:window.location='{{ url_for("cates.index") }}'">返回
+                                        </button>
+                                    {{ info }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

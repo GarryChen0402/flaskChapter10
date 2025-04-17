@@ -1,0 +1,107 @@
+{% extends "shop/base.html" %}
+{% block title %}
+    <title>商品-修改</title>
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb float-sm-left">
+                            <li class="breadcrumb-item"><a href="#">商品管理</a></li>
+                            <li class="breadcrumb-item active">商品修改</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form novalidate enctype="multipart/form-data" action="" method="post" class="form-horizontal">
+                            {{ form_obj.csrf_token }}
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">商品修改</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="id_name" class="col-sm-2 col-form-label text-center">商品名称</label>
+                                        <div class="col-sm-10">
+                                            {#                                            {{ form_obj.name }}#}
+                                            <input type="text" name="name" class="form-control" placeholder="请输入商品名称"
+                                                   minlength="2"
+                                                   required id="id_name" value="{{ form_obj.name.data  if form_obj.name.data else "" }}">
+                                            <span style="color:red">{{ form_obj.name.errors[0] }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="id_parent"  class="col-sm-2 col-form-label text-center">商品分类</label>
+                                        <div class="col-sm-10">
+                                            <select id="category_id" name="category_id" class="form-control custom-select">
+                                                <option selected disabled>请选择...</option>
+                                                {% for key,value in cates.items() %}
+                                                    <option value={{ key }}>{{ value|safe }}</option>
+                                                {% endfor %}
+                                            </select><span style="color:red">{{ form_obj.category_id.errors[0] }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="id_name" class="col-sm-2 col-form-label text-center">市场价</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="market_price" class="form-control"
+                                                   placeholder="请输入市场价"
+                                                   required onkeyup="value=value.replace(/[^\d.]/g,'')">
+                                            <span style="color:red">{{ form_obj.market_price.errors[0] }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="id_name" class="col-sm-2 col-form-label text-center">销售价</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="price" class="form-control" placeholder="请输入销售价"
+                                                   required
+                                                   onkeyup="value=value.replace(/[^\d.]/g,'')">
+                                            <span style="color:red">{{ form_obj.price.errors[0] }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="id_pic_main"
+                                               class="col-sm-2 col-form-label text-center">商品主图片</label>
+                                        <div class="custom-file col-sm-10">
+                                            {{ form_obj.main_img }}
+                                            <label class="custom-file-label" for="customFile">选择商品主图片
+                                            </label>
+                                            <span style="color:red">{{ form_obj.main_img.errors[0] }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="id_good_desc"
+                                               class="col-sm-2 col-form-label text-center">商品详情</label>
+                                        <div class="col-sm-10">
+                                            {{ form_obj.goods_desc }}
+                                            {{ ckeditor.load() }}
+                                            {#                                        {{ ckeditor.config(name="memo") }}#}
+                                            <span style="color:red">{{ form_obj.goods_desc.errors[0] }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="submit" class="btn btn-info">保存</button>
+                                        <button type="button" class="btn btn-default"
+                                                onclick="javascript:window.location=''">返回
+                                        </button>
+                                        {{ info }}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+<script src="//cdn.ckeditor.com/4.4.6/full/ckeditor.js"></script>
